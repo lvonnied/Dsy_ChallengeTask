@@ -25,3 +25,13 @@ All requirements below must be met in order to pass this lecture.
 Hand-in 1: 14.04.2022, 23:59 (CET) - initial version of your project.
 
 Final hand-in: 12.05.2022, 23:59 (CET) - well documented infrastructure, presentation (slides) of the application, also showing the architecture and design decisions via email to thomas.ost-at-bocek.ch or via a repository invite. The code and configuration should be easy to read and/or well documented, the presentation (slides or text) should show the architecture, components, and design decisions. During the weeks 13.05./20.05., you will present and demo your solutions via MS Teams.
+
+
+## Usage
+
+```
+docker build -t webapp .
+docker run -it --init -p 3000:3000 webapp
+```
+
+Access webapplication through localhost:3000
