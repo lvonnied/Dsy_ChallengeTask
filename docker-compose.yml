@@ -13,3 +13,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.todo.entrypoints=web"
       - "traefik.http.routers.todo.rule=Host(`todo.localhost`)"
+    deploy:
+      mode: replicated
+      replicas: 2
