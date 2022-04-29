@@ -8,9 +8,8 @@ import dotenv from "dotenv";
     const app = (await import('./app')).app;
 
     const hostname = '0.0.0.0';
-    const port = 3000;
+    const port = 80;
     app.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}/`);
-        console.log("HELLO MOTHERFUCKER");
     });
 })() // https://github.com/wclr/ts-node-dev/issues/265

@@ -29,7 +29,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
     // load app with current config
     const app = (await Promise.resolve().then(() => __importStar(require('./app')))).app;
     const hostname = '0.0.0.0';
-    const port = 3000;
+    const port = 80;
     app.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}/`);
     });
