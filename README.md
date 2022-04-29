@@ -30,8 +30,9 @@ Final hand-in: 12.05.2022, 23:59 (CET) - well documented infrastructure, present
 ## Usage
 
 ```
-docker build -t webapp .
-docker run -it --init -p 3000:3000 webapp
+docker-compose up -d reverse-proxy
+docker-compose up -d web
+docker-compose up -d --scale web=2
 ```
 
 Access webapplication through localhost:3000
