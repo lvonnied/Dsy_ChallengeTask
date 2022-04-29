@@ -30,9 +30,7 @@ Final hand-in: 12.05.2022, 23:59 (CET) - well documented infrastructure, present
 ## Usage
 
 ```
-docker-compose up -d reverse-proxy
-docker-compose up -d web
-docker-compose up -d --scale web=2
+docker-compose up -d
 ```
 
-Access webapplication through localhost:3000
+Access webapplication through todo.localhost
