@@ -4,9 +4,27 @@ services:
     ports:
       - "80:80"
       - "8080:8080"
+      - "5432:5432"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./traefik.yml:/traefik.yml:ro"
+  db:
+    image: postgres:14.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+    labels:
+      - "traefik.enable=true"
+      # routers
+      - "traefik.tcp.routers.postgres.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.postgres.entryPoints=postgres"
+      - "traefik.tcp.routers.postgres.service=postgres"
+      # services (needed for TCP)
+      - "traefik.tcp.services.postgres.loadbalancer.server.port=5432"
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+      - db:/var/lib/postgresql/data
   todo:
     build: .
     labels:
@@ -16,3 +34,6 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+volumes:
+    db:
+      driver: local

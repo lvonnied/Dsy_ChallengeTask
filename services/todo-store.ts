@@ -1,4 +1,4 @@
-import Datastore from "nedb-promises";
+import { dataBase } from "./database-connection";
 
 export class ToDo {
   public create: string;
@@ -14,10 +14,6 @@ export class ToDo {
 }
 
 export class ToDoStore {
-  constructor(public db?: Datastore) {
-    this.db =
-      db || new Datastore({ filename: "data/todo-database.db", autoload: true });
-  }
 
   async add(
     due: Date,
@@ -26,23 +22,16 @@ export class ToDoStore {
     completion: boolean,
     desc: string
   ) {
-    let todo = new ToDo(due, title, importance, completion, desc);
-    return await this.db!.insert(todo);
+    return dataBase.insertTodo(due, title, importance, completion, desc);
   }
-    async get(id: any){
-      return await this.db!.findOne({_id: id});
+    async get(id: number) {
+      return await dataBase.selectTodoById(id)
     }
-    async all(orderBy: object, showFinished?: string) {
-      if (showFinished === "false") {
-        return this.db!.find({"completion": {$exists: false}}).sort(orderBy);
-      } else {
-        return this.db!.find({}).sort(orderBy);
-      }
+    async all(orderBy: object, showFinished?: boolean) {
+      return dataBase.selectAllTodos(orderBy, showFinished);
     }
-    async update(id: any, due: Date, title: string, importance: number, completion: boolean, desc: string) {
-      let todoupdate = new ToDo(due, title, importance, completion, desc);
-      await this.db!.update({_id: id}, {$set: todoupdate});
-      return await this.get(id);
+    async update(id: number, due: Date, title: string, importance: number, completion: boolean, desc: string) {
+      return dataBase.updateTodo(id, due, title, importance, completion, desc);
     }
 }
 

@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toDoStore = exports.ToDoStore = exports.ToDo = void 0;
-const nedb_promises_1 = __importDefault(require("nedb-promises"));
+const database_connection_1 = require("./database-connection");
 class ToDo {
     constructor(due, title, importance, completion, desc) {
         this.due = due;
@@ -17,30 +14,17 @@ class ToDo {
 }
 exports.ToDo = ToDo;
 class ToDoStore {
-    constructor(db) {
-        this.db = db;
-        this.db =
-            db || new nedb_promises_1.default({ filename: "data/todo-database.db", autoload: true });
-    }
     async add(due, title, importance, completion, desc) {
-        let todo = new ToDo(due, title, importance, completion, desc);
-        return await this.db.insert(todo);
+        return database_connection_1.dataBase.insertTodo(due, title, importance, completion, desc);
     }
     async get(id) {
-        return await this.db.findOne({ _id: id });
+        return await database_connection_1.dataBase.selectTodoById(id);
     }
     async all(orderBy, showFinished) {
-        if (showFinished === "false") {
-            return this.db.find({ "completion": { $exists: false } }).sort(orderBy);
-        }
-        else {
-            return this.db.find({}).sort(orderBy);
-        }
+        return database_connection_1.dataBase.selectAllTodos(orderBy, showFinished);
     }
     async update(id, due, title, importance, completion, desc) {
-        let todoupdate = new ToDo(due, title, importance, completion, desc);
-        await this.db.update({ _id: id }, { $set: todoupdate });
-        return await this.get(id);
+        return database_connection_1.dataBase.updateTodo(id, due, title, importance, completion, desc);
     }
 }
 exports.ToDoStore = ToDoStore;
