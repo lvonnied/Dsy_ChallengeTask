@@ -9,8 +9,6 @@ api:
 entryPoints:
   web:
     address: ":80"
-  postgres:
-    address: ":5432"
 
 providers:
   docker:

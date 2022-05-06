@@ -14,14 +14,8 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASS}
-    labels:
-      - "traefik.enable=true"
-      # routers
-      - "traefik.tcp.routers.postgres.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.postgres.entryPoints=postgres"
-      - "traefik.tcp.routers.postgres.service=postgres"
-      # services (needed for TCP)
-      - "traefik.tcp.services.postgres.loadbalancer.server.port=5432"
+    ports:
+      - "5432:5432"
     volumes:
       - ./database.sql:/docker-entrypoint-initdb.d/database.sql
       - db:/var/lib/postgresql/data
@@ -34,6 +28,8 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    depends_on:
+      - db
 volumes:
     db:
       driver: local
