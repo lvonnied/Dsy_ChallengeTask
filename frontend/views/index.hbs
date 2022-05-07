@@ -22,14 +22,14 @@
                 {{create_importance importance}}
             </div>
             <div id="edit">
-                <form action="/createtodo/{{_id}}" method="get"><input class="btn btn-primary" type="submit" value="Edit"></form>
+                <form action="/createtodo/{{id}}" method="get"><input class="btn btn-primary" type="submit" value="Edit"></form>
             </div>
             <div id="todo-completion">
-                <input id="completionCheckbox" type="checkbox" {{#if_eq completion "on"}} checked {{/if_eq}} disabled>
-                <label for="completionCheckbox">{{#if_eq completion "on"}} Done {{else}} Open {{/if_eq}}</label>
+                <input id="completionCheckbox" type="checkbox" {{#if_eq completion true}} checked {{/if_eq}} disabled>
+                <label for="completionCheckbox">{{#if_eq completion true}} Done {{else}} Open {{/if_eq}}</label>
             </div>
             <div id="todo-desc">
-                {{desc}}
+                {{description}}
             </div>
         </div>
     {{else}}

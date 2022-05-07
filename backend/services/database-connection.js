@@ -43,14 +43,16 @@ class DataBase {
         return this.execute(insertTodo);
     }
     async selectAllTodos(orderBy, showFinished) {
-        if (showFinished) {
+        let result;
+        if (!showFinished) {
             const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo WHERE completion = false");
-            return this.execute(selectTodos);
+            result = await this.execute(selectTodos);
         }
         else {
             const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo");
-            return this.execute(selectTodos);
+            result = await this.execute(selectTodos);
         }
+        return result.rows;
     }
     async updateTodo(id, due, title, importance, completion, desc) {
         const updateTodo = new ts_postgres_1.Query("UPDATE todo SET due = $1, title = $2, importance = $3, completion = $4, desc = $5 WHERE id = $6", [due, title, importance, completion, desc, id]);

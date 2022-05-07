@@ -56,18 +56,19 @@ export class DataBase {
     }
 
     async selectAllTodos(orderBy: object, showFinished?: boolean) {
-        if(showFinished) {
+        let result;
+        if(!showFinished) {
             const selectTodos = new Query(
                 "SELECT * FROM todo WHERE completion = false"
             )
-            return this.execute(selectTodos)
+            result = await this.execute(selectTodos);
         } else {
             const selectTodos = new Query(
                 "SELECT * FROM todo"
             )
-            return this.execute(selectTodos)
-
+            result = await this.execute(selectTodos)
         }
+        return result.rows;
     }
 
     async updateTodo(id: number, due: Date, title: string, importance: number, completion: boolean, desc: string) {

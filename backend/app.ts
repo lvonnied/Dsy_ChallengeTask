@@ -3,12 +3,12 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
 import {indexRoutes} from './routes/index-routes';
-import {helpers} from './utils/handlebar-util'
-import {overrideMiddleware} from "./utils/method-override";
+import {helpers} from '../utils/handlebar-util'
+import {overrideMiddleware} from "../utils/method-override";
 
 
 import exphbs from 'express-handlebars';
-import {sessionUserSettings, Settings} from "./utils/session-middleware.index";
+import {sessionUserSettings, Settings} from "../utils/session-middleware.index";
 
 declare module 'express-session' {
     interface SessionData {
@@ -35,9 +35,9 @@ const hbs = exphbs.create({
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
-app.set('views', path.resolve('views'));
+app.set('views', path.resolve('./frontend/views'));
 
-app.use(express.static(path.resolve('public')));
+app.use(express.static(path.resolve('./frontend/public')));
 app.use(session({secret: 'casduichasidbnuwezrfinasdcvjkadfhsuilfuzihfioda', resave: false, saveUninitialized: true}));
 app.use(overrideMiddleware);
 

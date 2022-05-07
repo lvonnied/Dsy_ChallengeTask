@@ -7,9 +7,8 @@ import dotenv from "dotenv";
     // load app with current config
     const app = (await import('./app')).app;
 
-    const hostname = '0.0.0.0';
-    const port = 80;
-    app.listen(port, hostname, () => {
-        console.log(`Server running at http://${hostname}:${port}/`);
+    const port = 3000;
+    app.listen(port, () => {
+        console.log(`Server running on port: ${port}`);
     });
 })() // https://github.com/wclr/ts-node-dev/issues/265

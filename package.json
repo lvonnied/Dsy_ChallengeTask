@@ -4,7 +4,7 @@
   "description": "Vorlage",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node backend/index.js",
     "test": "mocha tests/*.test.js"
   },
   "author": "mgfeller",
