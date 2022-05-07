@@ -2,7 +2,7 @@ import express, {response} from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
-import {indexRoutes} from './routes/index-routes';
+import {indexRoutes} from '../../backend/routes/index-routes';
 import {helpers} from '../utils/handlebar-util'
 import {overrideMiddleware} from "../utils/method-override";
 
