@@ -52,9 +52,9 @@ Technology stack:
 - CSS
 - React.js
 
-To write our frontend service we decided to use React. React is the most popular frontend framework and therefore provides a lot of great documentation. React was another new technology for us. We had previous experiences with javascript and npm but we have never used React before this assignment.
+To write our frontend service we decided to use React. React is the most popular frontend framework and therefore provides a lot of great documentation. React was another new technology for us. We had previous experiences with javascript and npm, but we have never used React before this assignment.
 
-Our presentation Layer consists of the user interface component. The user can interact with the application over a webbrowser. This layer communicates over the backend layer to retrieve data and notify for changes.
+Our presentation Layer consists of the user interface component. The user can interact with the application over a web browser. This layer communicates over the backend layer to retrieve data and notify for changes.
 
 
 
@@ -83,7 +83,7 @@ docker-compose up -d
 
 Access webapplication through http://localhost:3000
 
-To shutdown one instace
+To shutdown one instance
 
 ```
 ja das weissi nonig
