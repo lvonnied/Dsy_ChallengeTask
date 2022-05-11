@@ -21,9 +21,9 @@ class ToDoStore {
     async get(id) {
         return await database_connection_1.dataBase.selectTodoById(id);
     }
-    async all(orderBy, showFinished) {
+    async all(showFinished) {
         let todoArray = [];
-        const todos = await database_connection_1.dataBase.selectAllTodos(orderBy, showFinished);
+        const todos = await database_connection_1.dataBase.selectAllTodos(showFinished);
         for (let todo of todos) {
             const id = todo[0];
             const due = todo[1];

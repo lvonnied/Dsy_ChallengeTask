@@ -6,15 +6,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const index_routes_1 = require("./routes/index-routes");
+const body_parser_1 = __importDefault(require("body-parser"));
 (async () => {
     // load config-file
     dotenv_1.default.config({ path: `.env${process.env.NODE_ENV ? `-${process.env.NODE_ENV}` : ''}` });
     // load app with current config
     const app = express_1.default();
-    app.use(express_1.default.json());
-    app.use(express_1.default.urlencoded({ extended: true }));
+    app.use(body_parser_1.default.json());
+    app.use(body_parser_1.default.urlencoded({ extended: true }));
     app.use(index_routes_1.indexRoutes);
-    const port = 3000;
+    const allowCrossDomain = function (req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        next();
+    };
+    app.use(allowCrossDomain);
+    const port = 3001;
     app.listen(port, () => {
         console.log(`Server running on port: ${port}`);
     });

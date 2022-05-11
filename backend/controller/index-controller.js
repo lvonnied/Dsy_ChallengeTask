@@ -4,12 +4,20 @@ exports.indexController = exports.IndexController = void 0;
 const todo_store_1 = require("../services/todo-store");
 class IndexController {
     constructor() {
+        this.index = async (req, res) => {
+            // TODO change to true
+            let todos = await todo_store_1.toDoStore.all(false);
+            res.json({ todos: todos });
+        };
         this.createToDo = (req, res) => {
             res.json(req.userSettings.theme);
         };
         this.createEntry = async (req, res) => {
-            let entry = await todo_store_1.toDoStore.add(new Date(req.body.due), req.body.title, req.body.importance, req.body.finished, req.body.desc);
-            res.json(entry);
+            console.log("title: " + req.body.title);
+            let entry = await todo_store_1.toDoStore.add(new Date(req.body.due), req.body.title, req.body.importance, req.body.finished, req.body.desc).catch((err) => {
+                res.sendStatus(500).json({ error: "save failed", err: err });
+            });
+            res.sendStatus(200);
         };
         this.editEntry = async (req, res) => {
             let entry = await todo_store_1.toDoStore.get(req.params.id);
@@ -30,11 +38,6 @@ class IndexController {
             //res.render("index",)
         };
     }
-    async index(req, res) {
-        let todos = await todo_store_1.toDoStore.all({ [req.userSettings.orderBy]: req.userSettings.orderDirection }, req.userSettings.showFinished);
-        res.json(todos);
-    }
-    ;
 }
 exports.IndexController = IndexController;
 exports.indexController = new IndexController();

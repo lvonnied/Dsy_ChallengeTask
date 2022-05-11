@@ -17,8 +17,8 @@ async function exitHandler(codeString, codeValue) {
 class DataBase {
     constructor() {
         const database = "todos";
-        const user = process_1.default.env.POSTGRES_USER?.toString();
-        const password = process_1.default.env.POSTGRES_PASS?.toString();
+        const user = "postgres"; //process.env.POSTGRES_USER?.toString()
+        const password = "postgres"; //process.env.POSTGRES_PASS?.toString()
         this.client = new ts_postgres_1.Client({ "database": database, "user": user, "password": password });
         // TODO: find a way to eliminate this Race condition
         this.client.connect().then(_ => console.log("connected to DB"));
@@ -39,17 +39,18 @@ class DataBase {
         return this.executeAndReturnFirstRow(selectTodo);
     }
     async insertTodo(due, title, importance, completion, desc) {
-        const insertTodo = new ts_postgres_1.Query("INSERT INTO todo VALUES (DEFAULT, to_timestampt($1), to_timestamp($2), $3, $4, $5, $6)", [due, Date.now() / 1000, title, importance, completion, desc]);
+        console.log("INSERT TODO: " + due, title, importance, completion, desc);
+        const insertTodo = new ts_postgres_1.Query("INSERT INTO todo VALUES (DEFAULT, to_timestamp($1), to_timestamp($2), $3, $4, $5, $6)", [due, Date.now() / 1000, title, importance, completion, desc]);
         return this.execute(insertTodo);
     }
-    async selectAllTodos(orderBy, showFinished) {
+    async selectAllTodos(showFinished) {
         let result;
-        if (!showFinished) {
-            const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo WHERE completion = false");
+        if (showFinished) {
+            const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo");
             result = await this.execute(selectTodos);
         }
         else {
-            const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo");
+            const selectTodos = new ts_postgres_1.Query("SELECT * FROM todo WHERE completion = false");
             result = await this.execute(selectTodos);
         }
         return result.rows;

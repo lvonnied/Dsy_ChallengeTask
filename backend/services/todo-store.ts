@@ -26,9 +26,9 @@ export class ToDoStore {
     async get(id: number) {
       return await dataBase.selectTodoById(id)
     }
-    async all(orderBy: object, showFinished?: boolean) {
+    async all(showFinished: boolean) {
       let todoArray : ToDo[] = []
-      const todos = await dataBase.selectAllTodos(orderBy, showFinished);
+      const todos = await dataBase.selectAllTodos(showFinished);
       for(let todo of todos) {
         const id = todo[0] as number
         const due = todo[1] as Date

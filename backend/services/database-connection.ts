@@ -16,8 +16,8 @@ export class DataBase {
 
     constructor() {
         const database = "todos"
-        const user = process.env.POSTGRES_USER?.toString()
-        const password = process.env.POSTGRES_PASS?.toString()
+        const user = "postgres" //process.env.POSTGRES_USER?.toString()
+        const password = "postgres" //process.env.POSTGRES_PASS?.toString()
 
         this.client = new Client({"database": database, "user": user, "password": password})
 
@@ -48,23 +48,24 @@ export class DataBase {
     }
 
     async insertTodo(due: Date, title: string, importance: number, completion: boolean, desc: string) {
+        console.log("INSERT TODO: " + due, title, importance, completion, desc)
         const insertTodo = new Query(
-            "INSERT INTO todo VALUES (DEFAULT, to_timestampt($1), to_timestamp($2), $3, $4, $5, $6)",
+            "INSERT INTO todo VALUES (DEFAULT, to_timestamp($1), to_timestamp($2), $3, $4, $5, $6)",
             [due, Date.now() / 1000, title, importance, completion, desc]
         )
         return this.execute(insertTodo)
     }
 
-    async selectAllTodos(orderBy: object, showFinished?: boolean) {
+    async selectAllTodos(showFinished: boolean) {
         let result;
-        if(!showFinished) {
-            const selectTodos = new Query(
-                "SELECT * FROM todo WHERE completion = false"
-            )
-            result = await this.execute(selectTodos);
-        } else {
+        if(showFinished) {
             const selectTodos = new Query(
                 "SELECT * FROM todo"
+            )
+            result = await this.execute(selectTodos)
+        } else {
+            const selectTodos = new Query(
+                "SELECT * FROM todo WHERE completion = false"
             )
             result = await this.execute(selectTodos)
         }

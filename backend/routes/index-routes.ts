@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 import {indexController} from '../controller/index-controller';
 
-router.get("/", indexController.index.bind(indexController));
+router.get("/api", indexController.index);
 router.get("/switchTheme", indexController.switchTheme);
 router.get("/createtodo", indexController.createToDo);
 router.get("/createtodo/:id/", indexController.editEntry);
