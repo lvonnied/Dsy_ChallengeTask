@@ -6,9 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataBase = exports.DataBase = void 0;
 const ts_postgres_1 = require("ts-postgres");
 const process_1 = __importDefault(require("process"));
+const dotenv_1 = __importDefault(require("dotenv"));
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException", "SIGTERM"].forEach((eventType) => {
     process_1.default.on(eventType, exitHandler.bind(null, eventType));
 });
+dotenv_1.default.config();
 async function exitHandler(codeString, codeValue) {
     await exports.dataBase.closeConnection();
     console.log("reason: " + codeString);
@@ -16,10 +18,10 @@ async function exitHandler(codeString, codeValue) {
 }
 class DataBase {
     constructor() {
-        const database = "todos";
-        const host = "postgres";
-        const user = "postgres"; //process.env.POSTGRES_USER?.toString()
-        const password = "postgres"; //process.env.POSTGRES_PASS?.toString()
+        const database = process_1.default.env.POSTGRES_DB?.toString();
+        const host = process_1.default.env.POSTGRES_HOST?.toString();
+        const user = process_1.default.env.POSTGRES_USER?.toString();
+        const password = process_1.default.env.POSTGRES_PASS?.toString();
         this.client = new ts_postgres_1.Client({ "host": host, "database": database, "user": user, "password": password });
         // TODO: find a way to eliminate this Race condition
         this.client.connect().then(() => console.log("connected to DB")).catch(() => {

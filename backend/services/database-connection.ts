@@ -1,9 +1,12 @@
 import {Client, Query} from "ts-postgres"
 import process from "process"
+import dotenv from "dotenv"
 
 ["exit", "SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException", "SIGTERM"].forEach((eventType) => {
     process.on(eventType, exitHandler.bind(null, eventType))
 })
+
+dotenv.config()
 
 async function exitHandler(codeString: string, codeValue: number) {
     await dataBase.closeConnection()
@@ -15,10 +18,10 @@ export class DataBase {
     private client: Client
 
     constructor() {
-        const database = "todos"
-        const host = "postgres"
-        const user = "postgres" //process.env.POSTGRES_USER?.toString()
-        const password = "postgres" //process.env.POSTGRES_PASS?.toString()
+        const database = process.env.POSTGRES_DB?.toString()
+        const host = process.env.POSTGRES_HOST?.toString()
+        const user = process.env.POSTGRES_USER?.toString()
+        const password = process.env.POSTGRES_PASS?.toString()
 
         this.client = new Client({"host": host, "database": database, "user": user, "password": password})
 
