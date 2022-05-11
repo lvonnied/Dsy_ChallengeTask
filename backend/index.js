@@ -15,6 +15,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
     app.use(body_parser_1.default.json());
     app.use(body_parser_1.default.urlencoded({ extended: true }));
     app.use(index_routes_1.indexRoutes);
+    // allow access control allow origin
     const allowCrossDomain = function (req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

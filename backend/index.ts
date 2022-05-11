@@ -13,6 +13,7 @@ import bodyParser from 'body-parser';
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(indexRoutes)
 
+    // allow access control allow origin
     const allowCrossDomain = function(req: any, res: any, next: any) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

@@ -17,11 +17,15 @@ async function exitHandler(codeString, codeValue) {
 class DataBase {
     constructor() {
         const database = "todos";
+        const host = "postgres";
         const user = "postgres"; //process.env.POSTGRES_USER?.toString()
         const password = "postgres"; //process.env.POSTGRES_PASS?.toString()
-        this.client = new ts_postgres_1.Client({ "database": database, "user": user, "password": password });
+        this.client = new ts_postgres_1.Client({ "host": host, "database": database, "user": user, "password": password });
         // TODO: find a way to eliminate this Race condition
-        this.client.connect().then(_ => console.log("connected to DB"));
+        this.client.connect().then(() => console.log("connected to DB")).catch(() => {
+            console.log("couldn't connect to DB: shutting down");
+            process_1.default.exit(1);
+        });
     }
     async closeConnection() {
         await this.client.end();

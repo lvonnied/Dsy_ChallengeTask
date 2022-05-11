@@ -2,6 +2,7 @@ services:
   postgres:
     image: postgres:14.2-alpine
     restart: always
+    container_name: postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASS}
@@ -31,8 +32,8 @@ services:
     build:
       context: ./client
     volumes:
-      - ./app
-      - ./app/node_modules
+      - /app
+      - /app/node_modules
     ports:
       - 3000:3000
 
