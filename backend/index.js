@@ -22,8 +22,9 @@ const body_parser_1 = __importDefault(require("body-parser"));
         next();
     };
     app.use(allowCrossDomain);
+    const hostname = '0.0.0.0';
     const port = 3001;
-    app.listen(port, () => {
+    app.listen(port, hostname, () => {
         console.log(`Server running on port: ${port}`);
     });
 })(); // https://github.com/wclr/ts-node-dev/issues/265
