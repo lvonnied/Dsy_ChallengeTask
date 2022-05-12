@@ -66,7 +66,6 @@ Technology stack:
 - Node.js
 - TypeScript
 - JavaScript
-- Handlebars
 - Express
 - Docker
 
@@ -76,15 +75,14 @@ The backend layer is the foundation of the application and defines services and 
 
 
 ## Usage
+### Run locally
+1. Make sure Postgres13 is installed and runs on port 5432
+2. Run java application (backend)
+3. Start frontend with ```npm start```
+4. Open your browser at http://localhost:3000
 
+or
 ```
-docker-compose up -d
+sudo docker-compose up --build
 ```
 
-Access webapplication through http://localhost:3000
-
-To shutdown one instance
-
-```
-ja das weissi nonig
-```
