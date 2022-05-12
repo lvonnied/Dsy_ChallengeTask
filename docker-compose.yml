@@ -32,7 +32,7 @@ services:
       replicas: 2
     command: npm start
     ports:
-      - 3001-3002
+      - 3001-3002:3001
     labels:
       - traefik.enable=true
       - traefik.http.routers.web.rule=Host(`backend.localhost`)
@@ -41,14 +41,6 @@ services:
     depends_on:
       - postgres
       - traefik
-  client:
-    build:
-      context: ./client
-    volumes:
-      - /app
-      - /app/node_modules
-    ports:
-      - 3000:3000
 
 volumes:
   postgres:
