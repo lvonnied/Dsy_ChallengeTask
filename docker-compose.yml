@@ -1,4 +1,17 @@
 services:
+  traefik:
+    image: traefik:v2.6.6
+    restart: always
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
   postgres:
     image: postgres:14.2-alpine
     restart: always
@@ -11,23 +24,23 @@ services:
     volumes:
       - ./database.sql:/docker-entrypoint-initdb.d/database.sql
       - postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 30s
-      retries: 20
-
   backend:
     build:
       context: ./backend
-    container_name: backend
+    deploy:
+      mode: replicated
+      replicas: 2
     command: npm start
     ports:
-      - 3001:3001
+      - 3001-3002
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`backend.localhost`)
+      - traefik.http.routers.web.entrypoints=web
+      - traefik.http.services.web-service.loadbalancer.server.port=3001
     depends_on:
-      postgres:
-        condition: service_healthy
-
+      - postgres
+      - traefik
   client:
     build:
       context: ./client
