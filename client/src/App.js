@@ -1,10 +1,5 @@
 import React, {Component} from "react";
 import "./style.css"
-import {
-    Route,
-    HashRouter,
-    Routes
-} from "react-router-dom";
 import CreateTodo from "./createTodo";
 
 class App extends Component {
@@ -12,9 +7,17 @@ class App extends Component {
     super(props);
     this.state = {
         data: [],
-        isLoaded: false
+        isLoaded: false,
+        showCreateTodo: false
     };
+    this._onButtonClick = this._onButtonClick.bind(this);
   }
+
+    _onButtonClick() {
+        this.setState({
+            showCreateTodo: true,
+        });
+    }
 
   componentDidMount() {
       fetch(`/api`)
@@ -28,21 +31,13 @@ class App extends Component {
       } else {
           return (
               <>
-                  <HashRouter>
-                      <header>
-                          <form action="/#/createtodo">
-                              <input type="submit" className="btn btn-primary" value="Create new todo"/>
-                          </form>
-                          <form id="theme" action="/switchTheme" method="get">
-                              <input type="submit" className="btn btn-primary" value="Toggle style"/>
-                          </form>
-                      </header>
-                      <div className="content">
-                          <Routes>
-                              <Route path="/createtodo" element={<CreateTodo />}/>
-                          </Routes>
-                      </div>
-                  </HashRouter>
+                  <header>
+                      <button className="btn btn-primary" onClick={this._onButtonClick}>Create new todo</button>
+                      <form id="theme" action="/switchTheme" method="get">
+                          <input type="submit" className="btn btn-primary" value="Toggle style"/>
+                      </form>
+                  </header>
+                  {this.state.showCreateTodo ? <CreateTodo /> : null}
                   <div className="button-container">
                       <a className="btn btn-primary" href="?orderBy=title&orderDirection={{orderDirection}}">By Title</a>
                       <a className="btn btn-primary" href="?orderBy=due&orderDirection={{orderDirection}}">By Due Date</a>
@@ -54,7 +49,7 @@ class App extends Component {
                       {this.state.data.map(todo => (
                           <div key={todo.id} id="todo-list">
                               <div id="todo-id">
-                                  {convertSQLTimestampToDate(todo.due.toString())}
+                                  {convertSQLTimestampToDate(new Date(todo.due))}
                               </div>
                               <div id="todo-title">
                                   {todo.title}
@@ -91,9 +86,8 @@ function numberToImportance(number) {
     return importance;
 }
 
-function convertSQLTimestampToDate (sqlTimeStamp) {
-    let t = sqlTimeStamp.split('.');
-    return new Date(t[0]).toISOString().substring(0, 10);
+function convertSQLTimestampToDate (date) {
+    return date.toLocaleString("de-CH", { weekday: "long", year: "numeric", month: "long", day: "numeric" })
 }
 
 export default App;

@@ -13,7 +13,6 @@ class IndexController {
             res.json(req.userSettings.theme);
         };
         this.createEntry = async (req, res) => {
-            console.log("title: " + req.body.title);
             let entry = await todo_store_1.toDoStore.add(new Date(req.body.due), req.body.title, req.body.importance, req.body.finished, req.body.desc).catch((err) => {
                 res.sendStatus(500).json({ error: "save failed", err: err });
             });

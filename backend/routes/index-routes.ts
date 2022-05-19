@@ -7,7 +7,7 @@ router.get("/api", indexController.index);
 router.get("/switchTheme", indexController.switchTheme);
 router.get("/createtodo", indexController.createToDo);
 router.get("/createtodo/:id/", indexController.editEntry);
-router.post("/newtodo", indexController.createEntry);
+router.post("/api/newtodo", indexController.createEntry);
 router.post("/newtodo/:id/", indexController.updateEntry);
 
 export const indexRoutes = router;

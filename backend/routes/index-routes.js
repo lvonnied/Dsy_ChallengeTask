@@ -11,7 +11,7 @@ router.get("/api", index_controller_1.indexController.index);
 router.get("/switchTheme", index_controller_1.indexController.switchTheme);
 router.get("/createtodo", index_controller_1.indexController.createToDo);
 router.get("/createtodo/:id/", index_controller_1.indexController.editEntry);
-router.post("/newtodo", index_controller_1.indexController.createEntry);
+router.post("/api/newtodo", index_controller_1.indexController.createEntry);
 router.post("/newtodo/:id/", index_controller_1.indexController.updateEntry);
 exports.indexRoutes = router;
 //# sourceMappingURL=index-routes.js.map

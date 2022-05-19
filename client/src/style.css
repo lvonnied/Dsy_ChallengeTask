@@ -3,6 +3,10 @@ body {
     color: black;
 }
 
+#form {
+    margin-bottom: 10px;
+}
+
 body.darkmode {
     background: black;
     color: white;

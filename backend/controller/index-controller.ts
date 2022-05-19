@@ -13,7 +13,6 @@ export class IndexController {
     };
 
     createEntry = async (req: any, res:any) => {
-        console.log("title: " + req.body.title)
         let entry = await toDoStore.add(new Date(req.body.due), req.body.title, req.body.importance, req.body.finished, req.body.desc).catch((err) => {
             res.sendStatus(500).json({ error: "save failed", err: err});
         })

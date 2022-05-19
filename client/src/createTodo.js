@@ -17,7 +17,7 @@ class CreateTodo extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            let res = await fetch(`/newtodo`, {
+            let res = await fetch(`/api/newtodo`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -44,24 +44,26 @@ class CreateTodo extends Component {
 
     render() {
             return (
-                <form onSubmit={this.handleSubmit} id="form">
-                    <div id="new-todo-div">
-                        <label htmlFor="title">Title</label>
-                        <input id="title" name="title" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} required />
-                        <label htmlFor="importance">Importance</label>
-                        <input id="importance" name="importance" type="number" min="1" max="5" onChange={(e) => this.setState({importance: e.target.value})} required />
-                        <label htmlFor="due">Due Date</label>
-                        <input id="due" name="due" type="date" onChange={(e) => this.setState({due: e.target.value})} required />
-                        <label htmlFor="finished">Finished</label>
-                        <input id="finished" name="finished" onChange={(e) => this.setState({finished: e.target.value})} type="checkbox" />
-                        <label htmlFor="desc">Description</label>
-                        <textarea id="desc" name="desc" onChange={(e) => this.setState({desc: e.target.value})} />
-                    </div>
-                    <div id="new-todo-buttons">
-                        <input className="btn btn-primary" type="submit" />
-                        <a href="/" className="btn btn-primary">Overview</a>
-                    </div>
-                </form>
+                <>
+                    <form onSubmit={this.handleSubmit} id="form">
+                        <div id="new-todo-div">
+                            <label htmlFor="title">Title</label>
+                            <input id="title" name="title" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} required />
+                            <label htmlFor="importance">Importance</label>
+                            <input id="importance" name="importance" type="number" min="1" max="5" onChange={(e) => this.setState({importance: e.target.value})} required />
+                            <label htmlFor="due">Due Date</label>
+                            <input id="due" name="due" type="date" onChange={(e) => this.setState({due: e.target.value})} required />
+                            <label htmlFor="finished">Finished</label>
+                            <input id="finished" name="finished" onChange={(e) => this.setState({finished: e.target.value})} type="checkbox" />
+                            <label htmlFor="desc">Description</label>
+                            <textarea id="desc" name="desc" onChange={(e) => this.setState({desc: e.target.value})} />
+                        </div>
+                        <div id="new-todo-buttons">
+                            <input className="btn btn-primary" type="submit" />
+                            <a href="/" className="btn btn-primary">Overview</a>
+                        </div>
+                    </form>
+                </>
             );
     }
 }

@@ -46,7 +46,7 @@ class DataBase {
     }
     async insertTodo(due, title, importance, completion, desc) {
         console.log("INSERT TODO: " + due, title, importance, completion, desc);
-        const insertTodo = new ts_postgres_1.Query("INSERT INTO todo VALUES (DEFAULT, to_timestamp($1), to_timestamp($2), $3, $4, $5, $6)", [due, Date.now() / 1000, title, importance, completion, desc]);
+        const insertTodo = new ts_postgres_1.Query("INSERT INTO todo VALUES (DEFAULT, $1, to_timestamp($2), $3, $4, $5, $6)", [due, Date.now() / 1000, title, importance, completion, desc]);
         return this.execute(insertTodo);
     }
     async selectAllTodos(showFinished) {
