@@ -33,8 +33,9 @@ React
 - Listens to port 3000
 - Port 3000 is exposed
 
+
 Traefik
-- Listens to all traffic on port 80 (http)
+- Listens to all traffic on port 80 (http) and 8080
 
 Nodejs
 - Listening on port 80 for Docker container
@@ -73,16 +74,19 @@ We had some experience with most of the technologies, but never really in detail
 
 The backend layer is the foundation of the application and defines services and logical implementations for our webapplication. Every service works through the backend layer and the backend layer communicates to the presentation layer if any changes have occurred.
 
+## Docker Overview
+![Alt text](/images/docker.png)
 
 ## Usage
 ### Run locally
 1. Make sure Postgres13 is installed and runs on port 5432
 2. Run java application (backend)
 3. Start frontend with ```npm start```
-4. Open your browser at http://localhost:3000
+4. Open your browser at http://localhost
 
-or
+### Run with Docker
 ```
 sudo docker-compose up --build
 ```
-
+This will take a second so please have little patience.
+After that open your browser at http://localhost
