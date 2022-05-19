@@ -1,18 +1,55 @@
 services:
-  reverse-proxy:
-    image: traefik:v2.6
+  traefik:
+    image: traefik:v2.6.6
+    restart: always
     ports:
-      - "80:80"
-      - "8080:8080"
+      - 80:80
+      - 8080:8080
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - "./traefik.yml:/traefik.yml:ro"
-  todo:
-    build: .
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.todo.entrypoints=web"
-      - "traefik.http.routers.todo.rule=Host(`todo.localhost`)"
-    deploy:
-      mode: replicated
-      replicas: 2
+      - ./traefik.toml:/traefik.toml
+      - ./traefik_dynamic.toml:/traefik_dynamic.toml
+    depends_on:
+      - backend1
+      - backend2
+      - client
+  postgres:
+    image: postgres:14.2-alpine
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+      - postgres:/var/lib/postgresql/data
+  backend1:
+    build:
+      context: ./backend
+    container_name: backend1
+    command: npm start
+    ports:
+      - 80
+    depends_on:
+      - postgres
+  backend2:
+    build:
+      context: ./backend
+    container_name: backend2
+    command: npm start
+    ports:
+      - 80
+    depends_on:
+      - postgres
+  client:
+    build:
+      context: ./client
+    volumes:
+      - /app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+
+volumes:
+  postgres:
