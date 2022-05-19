@@ -17,7 +17,7 @@ class CreateTodo extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            let res = await fetch(`http://backend.localhost/newtodo`, {
+            let res = await fetch(`/newtodo`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',

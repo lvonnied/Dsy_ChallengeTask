@@ -26,7 +26,6 @@ class App extends Component {
       if(!this.state.isLoaded) {
           return <div>Loading...</div>;
       } else {
-          console.log(this.state.data)
           return (
               <>
                   <HashRouter>
