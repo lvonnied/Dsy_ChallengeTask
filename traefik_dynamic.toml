@@ -1,0 +1,20 @@
+[http.routers.dashboard]
+rule = "PathPrefix(`/api2`) || PathPrefix(`/dashboard`)"
+entrypoints = ["web"]
+service = "api@internal"
+
+[http.routers.webservice]
+rule = "PathPrefix(`/api`)"
+entrypoints = ["web"]
+service = "webservice"
+[[http.services.webservice.loadBalancer.servers]]
+url = "http://backend1"
+[[http.services.webservice.loadBalancer.servers]]
+url = "http://backend2"
+
+[http.routers.webfrontend]
+rule = "PathPrefix(`/`)"
+entrypoints = ["web"]
+service = "webfrontend"
+[[http.services.webfrontend.loadBalancer.servers]]
+url = "http://client:3000"

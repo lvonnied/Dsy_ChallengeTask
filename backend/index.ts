@@ -23,7 +23,7 @@ import bodyParser from 'body-parser';
     app.use(allowCrossDomain);
 
     const hostname = '0.0.0.0'
-    const port = 3001;
+    const port = 80;
     app.listen(port, hostname, () => {
         console.log(`Server running on port: ${port}`);
     });
