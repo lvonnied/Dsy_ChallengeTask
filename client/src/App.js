@@ -22,7 +22,11 @@ class App extends Component {
   componentDidMount() {
       fetch(`/api`)
           .then(res => res.json())
-          .then(result => this.setState({ data: result.todos, isLoaded: true }))
+          .then(result => {
+              console.log(result)
+              this.setState({ data: result.todos, isLoaded: true })
+          })
+          .catch((error) => console.log("Error: " +error))
   }
 
   render() {

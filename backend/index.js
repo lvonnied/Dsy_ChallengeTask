@@ -11,7 +11,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
     // load config-file
     dotenv_1.default.config({ path: `.env${process.env.NODE_ENV ? `-${process.env.NODE_ENV}` : ''}` });
     // load app with current config
-    const app = express_1.default();
+    const app = (0, express_1.default)();
     app.use(body_parser_1.default.json());
     app.use(body_parser_1.default.urlencoded({ extended: true }));
     app.use(index_routes_1.indexRoutes);

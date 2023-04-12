@@ -18,14 +18,16 @@ async function exitHandler(codeString, codeValue) {
 }
 class DataBase {
     constructor() {
-        const database = process_1.default.env.POSTGRES_DB?.toString();
-        const host = process_1.default.env.POSTGRES_HOST?.toString();
-        const user = process_1.default.env.POSTGRES_USER?.toString();
-        const password = process_1.default.env.POSTGRES_PASS?.toString();
+        const database = process_1.default.env.POSTGRES_DB?.toString() || "todos";
+        const host = process_1.default.env.POSTGRES_HOST?.toString() || "postgres";
+        const user = process_1.default.env.POSTGRES_USER?.toString() || "postgres";
+        const password = process_1.default.env.POSTGRES_PASS?.toString() || "postgres";
         this.client = new ts_postgres_1.Client({ "host": host, "database": database, "user": user, "password": password });
         // TODO: find a way to eliminate this Race condition
-        this.client.connect().then(() => console.log("connected to DB")).catch(() => {
+        this.client.connect().then(() => console.log("connected to DB")).catch((error) => {
+            console.log("host " + host + " database " + database + " user " + user + " password " + password);
             console.log("couldn't connect to DB: shutting down");
+            console.log(error);
             process_1.default.exit(1);
         });
     }
